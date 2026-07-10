@@ -1,0 +1,30 @@
+name: V7 real-data historical validation
+
+on:
+  push:
+    branches:
+      - validation/v7-real-data-20260710
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUNBUFFERED: "1"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Probe public endpoints
+        run: python validation/v7_api_probe.py
+      - name: Upload probe
+        uses: actions/upload-artifact@v4
+        with:
+          name: v7-api-probe
+          path: validation_api_probe.json
