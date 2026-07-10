@@ -9,7 +9,10 @@ URLS = {
     "upbit_btc_hour": "https://api.upbit.com/v1/candles/minutes/60?market=KRW-BTC&count=2",
     "binance_futures_ping": "https://fapi.binance.com/fapi/v1/ping",
     "binance_btc_hour": "https://fapi.binance.com/fapi/v1/klines?symbol=BTCUSDT&interval=1h&limit=2",
-    "binance_vision_month": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2024-01.zip",
+    "binance_vision_futures_kline": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2024-01.zip",
+    "binance_vision_spot_kline": "https://data.binance.vision/data/spot/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2024-01.zip",
+    "binance_vision_premium_kline": "https://data.binance.vision/data/futures/um/monthly/premiumIndexKlines/BTCUSDT/1h/BTCUSDT-1h-2024-01.zip",
+    "binance_vision_funding": "https://data.binance.vision/data/futures/um/monthly/fundingRate/BTCUSDT/BTCUSDT-fundingRate-2024-01.zip",
     "frankfurter_fx": "https://api.frankfurter.app/2024-01-01..2024-01-05?from=USD&to=KRW",
 }
 
