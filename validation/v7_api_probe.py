@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+import io
 import json
 import urllib.request
 import urllib.error
+import zipfile
 
 URLS = {
     "upbit_market": "https://api.upbit.com/v1/market/all?is_details=false",
@@ -21,14 +23,22 @@ for name, url in URLS.items():
     req = urllib.request.Request(url, headers={"User-Agent": "v7-validation/1.0"})
     try:
         with urllib.request.urlopen(req, timeout=30) as r:
-            body = r.read(300)
-            out[name] = {
+            body = r.read()
+            record = {
                 "ok": True,
                 "status": r.status,
                 "content_type": r.headers.get("content-type"),
                 "content_length": r.headers.get("content-length"),
-                "sample": body[:160].decode("utf-8", errors="replace"),
             }
+            if body[:2] == b"PK":
+                with zipfile.ZipFile(io.BytesIO(body)) as zf:
+                    names = zf.namelist()
+                    text = zf.read(names[0]).decode("utf-8", errors="replace")
+                    record["zip_names"] = names
+                    record["csv_head"] = text.splitlines()[:5]
+            else:
+                record["sample"] = body[:240].decode("utf-8", errors="replace")
+            out[name] = record
     except urllib.error.HTTPError as e:
         out[name] = {"ok": False, "status": e.code, "error": str(e), "body": e.read(300).decode("utf-8", errors="replace")}
     except Exception as e:
